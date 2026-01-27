@@ -27,6 +27,6 @@ def test_visualisation_is_present(dash_duo):
 
 def test_region_picker_is_present(dash_duo):
     dash_duo.start_server(app)
-    # dcc.Dropdown renders a container div with that id
-    dash_duo.wait_for_element("#region", timeout=5)
-    assert dash_duo.find_element("#region") is not None
+    dash_duo.wait_for_element("#view", timeout=5)
+    assert dash_duo.find_element("#view") is not None
+
