@@ -6,8 +6,10 @@ data = Path("data")
 output_path = data/"pink_morsel_sales.csv"
 
 def main():
-
-    csv_files = sorted(data.glob("*.csv"))
+    csv_files = [
+        f for f in data.glob("*.csv")
+        if f.name != "pink_morsel_sales.csv"
+    ]
 
     if not csv_files:
         raise FileNotFoundError("No CSV files found")
