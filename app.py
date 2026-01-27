@@ -17,6 +17,11 @@ df = df.dropna(subset=["date"])
 
 df = df.sort_values("date")
 
+REGIONS = sorted(df["region"].dropna().unique().tolist())
+REGION_OPTIONS = [{"label": "All regions", "value": "ALL"}] + [
+    {"label": r.title(), "value": r} for r in REGIONS
+]
+
 # Total sales per day (all regions)
 daily = df.groupby("date", as_index=False)["sales"].sum()
 
@@ -55,8 +60,11 @@ app.layout = html.Div(
     Output("sales_chart", "figure"),
     Output("answer", "children"),
     Input("view", "value"),
+    Input("region", "value"),
 )
-def update_chart(view):
+def update_chart(view, region):
+    filtered_df = df if region == "ALL" else df[df["region"] == region]
+    filtered_daily = filtered_df.groupby("date", as_index=False)["sales"].sum()
     cutoff = pd.to_datetime(PRICE_CHANGE_DATE)
 
     if view == "by_region":
